@@ -34,7 +34,7 @@ var requireContents = {
 
 var readFile = {
   '/top/package.json': JSON.stringify({
-    jest: {
+    'jest-webpack-alias': {
       webpackProfile: webpackProfile
     }
   })
@@ -73,7 +73,7 @@ function getWebpackInfo() {
   var pkginfo = {
     read: sinon.spy(function(pmodule, dir) {
       return {
-        dir: '/top',
+        dir: '/top/package.json', // misleading key name. lame.
         'package': JSON.parse(readFile['/top/package.json'])
       };
     })

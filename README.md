@@ -32,9 +32,7 @@ File `package.json`:
 ```
 {
   ...
-  "jest": {
-    ...
-    "scriptPreprocessor": "<rootDir>/__tests__/preprocess.js",
+  "jest-webpack-alias": {
     "webpackProfile": "dev"
   }
 }

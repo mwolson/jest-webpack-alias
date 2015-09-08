@@ -18,15 +18,16 @@ describe('webpackInfo lib', function() {
   describe('with package.json in top dir', function() {
     it('finds webpack.config.js and gets profile', function() {
       var filename = '/top/test/file1.test.js';
+      var webpackFile = '/top/webpack.config.js';
       var output = webpackInfo.read({filename: filename});
 
       expect(pkginfo.read).to.be.calledOnce;
       expect(pkginfo.read.args[0][0]).to.eql({filename: filename});
       expect(fakeRequire).to.be.calledOnce;
-      expect(fakeRequire.args[0][0]).to.eql('/top/webpack.config.js');
+      expect(fakeRequire.args[0][0]).to.eql(webpackFile);
       expect(output).to.eql({
-        config: requireContents['/top/webpack.config.js'][webpackProfile],
-        dir: '/top'
+        config: requireContents[webpackFile][webpackProfile],
+        file: webpackFile
       });
     });
   });
