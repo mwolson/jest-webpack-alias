@@ -40,6 +40,12 @@ File `package.json`:
 }
 ```
 
+## Missing features
+
+This module does not yet support:
+
+- `resolve.alias` (ironically, given package name)
+
 ## License
 
 MIT

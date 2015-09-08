@@ -26,16 +26,62 @@ describe('jest-webpack-alias module', function() {
   beforeEach(setup);
 
   describe('with file hit in first dir', function() {
-    it('resolves to first dir with caching', function() {
-      var filename = '/top/test/file1.test.js';
+    var filename = '/top/test/file1.test.js';
+
+    it('resolves with file extension', function() {
       var src = "var lib1a = require('dir1/lib1a');";
-      var firstDir = '/top/src';
       var output = webpackAlias.process(src, filename);
 
-      expect(dirHas).to.be.calledOnce;
-      expect(dirHas.args[0][0]).to.eq('/top/src');
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(3);
+      expect(dirHas.args[0]).to.eql(['/top/src', 'dir1']);
+      expect(dirHas.args[1]).to.eql(['/top/src/dir1', 'lib1a']);
+      expect(dirHas.args[2]).to.eql(['/top/src/dir1', 'lib1a.js']);
       expect(webpackInfo.read).to.be.calledOnce;
-      expect(output).to.eq("var lib1a = require('../src/lib1a');");
+      expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.js');");
+    });
+
+    it('falls back to hit without extension if no extension found', function() {
+      var src = "var lib1a = require('dir1/lib1a.noext');";
+      var output = webpackAlias.process(src, filename);
+
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(4);
+      expect(dirHas.args[0]).to.eql(['/top/src', 'dir1']);
+      expect(dirHas.args[1]).to.eql(['/top/src/dir1', 'lib1a.noext']);
+      expect(dirHas.args[2]).to.eql(['/top/src/dir1', 'lib1a.noext.js']);
+      expect(dirHas.args[3]).to.eql(['/top/src/dir1', 'lib1a.noext.jsx']);
+      expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.noext');");
+    });
+  });
+
+  describe('with file in node_modules', function() {
+    var filename = '/top/test/file1.test.js';
+
+    it('resolves top-level hit without file extension', function() {
+      var src = "var lib1a = require('node1');";
+      var output = webpackAlias.process(src, filename);
+
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(4);
+      expect(dirHas.args[0]).to.eql(['/top/src', 'node1']);
+      expect(dirHas.args[1]).to.eql(['/top/src', 'node1.js']);
+      expect(dirHas.args[2]).to.eql(['/top/src', 'node1.jsx']);
+      expect(dirHas.args[3]).to.eql(['/top/node_modules', 'node1']);
+      expect(output).to.eq("var lib1a = require('../node_modules/node1');");
+    });
+
+    it('resolves submodule with file extension', function() {
+      var src = "var lib1a = require('node1/lib/submodule');";
+      var output = webpackAlias.process(src, filename);
+
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(4);
+      expect(dirHas.args[0]).to.eql(['/top/src', 'node1']);
+      expect(dirHas.args[1]).to.eql(['/top/node_modules', 'node1']);
+      expect(dirHas.args[2]).to.eql(['/top/node_modules/node1/lib', 'submodule']);
+      expect(dirHas.args[3]).to.eql(['/top/node_modules/node1/lib', 'submodule.js']);
+      expect(output).to.eq("var lib1a = require('../node_modules/node1/lib/submodule.js');");
     });
   });
 });

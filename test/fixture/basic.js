@@ -4,6 +4,8 @@ var sinon = require('sinon');
 var readdir = {
   '/top': ['node_modules', 'package.json', 'src', 'test', 'web_modules', 'webpack.config.js'],
   '/top/node_modules': ['node1', 'node2'],
+  '/top/node_modules/node1': ['lib'],
+  '/top/node_modules/node1/lib': ['submodule.js'],
   '/top/web_modules': ['web1', 'web2'],
   '/top/src': ['dir1', 'dir2'],
   '/top/src/dir1': ['lib1a.js', 'lib1b-2b.js', 'dir1-1'],
