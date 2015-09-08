@@ -58,7 +58,7 @@ describe('jest-webpack-alias module', function() {
   describe('with file in node_modules', function() {
     var filename = '/top/test/file1.test.js';
 
-    it('resolves top-level hit without file extension', function() {
+    it('resolves top-level dir', function() {
       var src = "var lib1a = require('node1');";
       var output = webpackAlias.process(src, filename);
 
@@ -71,7 +71,7 @@ describe('jest-webpack-alias module', function() {
       expect(output).to.eq("var lib1a = require('../node_modules/node1');");
     });
 
-    it('resolves submodule with file extension', function() {
+    it('resolves submodule, adding file extension', function() {
       var src = "var lib1a = require('node1/lib/submodule');";
       var output = webpackAlias.process(src, filename);
 
@@ -82,6 +82,28 @@ describe('jest-webpack-alias module', function() {
       expect(dirHas.args[2]).to.eql(['/top/node_modules/node1/lib', 'submodule']);
       expect(dirHas.args[3]).to.eql(['/top/node_modules/node1/lib', 'submodule.js']);
       expect(output).to.eq("var lib1a = require('../node_modules/node1/lib/submodule.js');");
+    });
+  });
+
+  describe('with file in web_modules', function() {
+    var filename = '/top/test/file1.test.js';
+
+    it('resolves top-level file, adding file extension', function() {
+      var src = "var lib1a = require('web2');";
+      var output = webpackAlias.process(src, filename);
+
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(9);
+      expect(dirHas.args[0]).to.eql(['/top/src', 'web2']);
+      expect(dirHas.args[1]).to.eql(['/top/src', 'web2.js']);
+      expect(dirHas.args[2]).to.eql(['/top/src', 'web2.jsx']);
+      expect(dirHas.args[3]).to.eql(['/top/node_modules', 'web2']);
+      expect(dirHas.args[4]).to.eql(['/top/node_modules', 'web2.js']);
+      expect(dirHas.args[5]).to.eql(['/top/node_modules', 'web2.jsx']);
+      expect(dirHas.args[6]).to.eql(['/top/web_modules', 'web2']);
+      expect(dirHas.args[7]).to.eql(['/top/web_modules', 'web2.js']);
+      expect(dirHas.args[8]).to.eql(['/top/web_modules', 'web2.jsx']);
+      expect(output).to.eq("var lib1a = require('../web_modules/web2.jsx');");
     });
   });
 });
