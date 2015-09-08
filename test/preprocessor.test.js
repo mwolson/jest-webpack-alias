@@ -130,4 +130,16 @@ describe('jest-webpack-alias module', function() {
       expect(output).to.eq("var lib1a = require('bogus1');");
     });
   });
+
+  describe('with relative file', function() {
+    var filename = '/top/src/dir1/lib2.js';
+
+    it('skips any kind of processing', function() {
+      var src = "var lib1a = require('./lib1');";
+      var output = webpackAlias.process(src, filename);
+
+      expect(dirHas).not.to.be.called;
+      expect(output).to.eq("var lib1a = require('./lib1');");
+    });
+  });
 });
