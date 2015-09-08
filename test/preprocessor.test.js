@@ -108,4 +108,26 @@ describe('jest-webpack-alias module', function() {
       expect(output).to.eq("var lib1a = require('../web_modules/web2.jsx');");
     });
   });
+
+  describe('with nonexistent file', function() {
+    var filename = '/top/test/file1.test.js';
+
+    it('resolves top-level file, adding file extension', function() {
+      var src = "var lib1a = require('bogus1');";
+      var output = webpackAlias.process(src, filename);
+
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(9);
+      expect(dirHas.args[0]).to.eql(['/top/src', 'bogus1']);
+      expect(dirHas.args[1]).to.eql(['/top/src', 'bogus1.js']);
+      expect(dirHas.args[2]).to.eql(['/top/src', 'bogus1.jsx']);
+      expect(dirHas.args[3]).to.eql(['/top/node_modules', 'bogus1']);
+      expect(dirHas.args[4]).to.eql(['/top/node_modules', 'bogus1.js']);
+      expect(dirHas.args[5]).to.eql(['/top/node_modules', 'bogus1.jsx']);
+      expect(dirHas.args[6]).to.eql(['/top/web_modules', 'bogus1']);
+      expect(dirHas.args[7]).to.eql(['/top/web_modules', 'bogus1.js']);
+      expect(dirHas.args[8]).to.eql(['/top/web_modules', 'bogus1.jsx']);
+      expect(output).to.eq("var lib1a = require('bogus1');");
+    });
+  });
 });
