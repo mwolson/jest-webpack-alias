@@ -25,7 +25,7 @@ describe('jest-webpack-alias module', function() {
 
   beforeEach(setup);
 
-  describe('with file hit in first dir', function() {
+  describe('with file in first dir', function() {
     var filename = '/top/test/file1.test.js';
 
     it('resolves with file extension', function() {
@@ -41,7 +41,7 @@ describe('jest-webpack-alias module', function() {
       expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.js');");
     });
 
-    it('falls back to hit without extension if no extension found', function() {
+    it('falls back to hit without extension if no exact match found', function() {
       var src = "var lib1a = require('dir1/lib1a.noext');";
       var output = webpackAlias.process(src, filename);
 
