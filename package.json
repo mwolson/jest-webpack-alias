@@ -1,0 +1,33 @@
+{
+  "name": "jest-webpack-alias",
+  "version": "0.0.1",
+  "description": "Preprocessor for Jest that is able to resolve require() statements using webpack aliases.",
+  "main": "lib/preprocessor.js",
+  "scripts": {
+    "test": "mocha --reporter tap test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ticketmaster/jest-webpack-alias.git"
+  },
+  "author": "Ticketmaster",
+  "license": "MIT",
+  "keywords": [
+    "jest",
+    "webpack",
+    "require",
+    "resolve",
+    "alias"
+  ],
+  "dependencies": {
+    "@ticketmaster/transform-deps": "^1.1.0",
+    "pkginfo": "^0.3.0"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.3.0",
+    "rewire": "^2.3.4",
+    "sinon": "^1.16.1",
+    "sinon-chai": "^2.8.0"
+  }
+}
