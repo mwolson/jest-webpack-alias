@@ -7,20 +7,14 @@ var sinon = require('sinon');
 
 describe('jest-webpack-alias module', function() {
 
-  var aliasDirs, dirHas, webpackAlias, webpackInfo;
+  var dirHas, fs, webpackAlias, webpackInfo;
 
   function setup() {
-    aliasDirs = ['/top/src', '/top/node_modules', '/top/web_modules'];
-    webpackAlias = rewire('../lib/preprocessor');
-
-    var setup = basicFixture.getDirHas();
-    dirHas = sinon.spy(setup.dirHas);
-    webpackAlias.__set__('dirHas', dirHas);
-
-    setup = basicFixture.getWebpackInfo();
+    var setup = basicFixture.getWebpackAlias();
+    dirHas = setup.dirHas;
+    fs = setup.fs;
+    webpackAlias = setup.webpackAlias;
     webpackInfo = setup.webpackInfo;
-    webpackInfo.read = sinon.spy(webpackInfo.read);
-    webpackAlias.__set__('webpackInfo', webpackInfo);
   }
 
   beforeEach(setup);
@@ -32,11 +26,19 @@ describe('jest-webpack-alias module', function() {
       var src = "var lib1a = require('dir1/lib1a');";
       var output = webpackAlias.process(src, filename);
 
+      expect(fs.existsSync).to.be.called;
+      expect(fs.existsSync.args).to.have.length(4);
+      expect(fs.existsSync.args[0][0]).to.eq('/top/src');
+      expect(fs.existsSync.args[1][0]).to.eq('/top/bogus_dir');
+      expect(fs.existsSync.args[2][0]).to.eq('/top/node_modules');
+      expect(fs.existsSync.args[3][0]).to.eq('/top/web_modules');
+
       expect(dirHas).to.be.called;
       expect(dirHas.args).to.have.length(3);
       expect(dirHas.args[0]).to.eql(['/top/src', 'dir1']);
       expect(dirHas.args[1]).to.eql(['/top/src/dir1', 'lib1a']);
       expect(dirHas.args[2]).to.eql(['/top/src/dir1', 'lib1a.js']);
+
       expect(webpackInfo.read).to.be.calledOnce;
       expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.js');");
     });

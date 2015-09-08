@@ -18,7 +18,7 @@ var webpackProfile = 'dev';
 var webpackSettings = {};
 webpackSettings[webpackProfile] = {
   resolve: {
-    root: ['/top/src'],
+    root: ['/top/src', '/top/bogus_dir'],
     extensions: ["", ".js", ".jsx"],
     // omitted: fallback
     // omitted: modulesDirectories
@@ -90,5 +90,33 @@ function getWebpackInfo() {
   };
 }
 
+function getWebpackAlias() {
+  var webpackAlias = rewire('../../lib/preprocessor');
+
+  var fs = {
+    existsSync: sinon.spy(function(inPath) {
+      return !!readdir[inPath];
+    })
+  };
+  webpackAlias.__set__('fs', fs);
+
+  var setup = getDirHas();
+  var dirHas = sinon.spy(setup.dirHas);
+  webpackAlias.__set__('dirHas', dirHas);
+
+  setup = getWebpackInfo();
+  var webpackInfo = setup.webpackInfo;
+  webpackInfo.read = sinon.spy(webpackInfo.read);
+  webpackAlias.__set__('webpackInfo', webpackInfo);
+
+  return {
+    dirHas: dirHas,
+    fs: fs,
+    webpackAlias: webpackAlias,
+    webpackInfo: webpackInfo
+  };
+}
+
 exports.getDirHas = getDirHas;
+exports.getWebpackAlias = getWebpackAlias;
 exports.getWebpackInfo = getWebpackInfo;
