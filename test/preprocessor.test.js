@@ -7,7 +7,7 @@ var sinon = require('sinon');
 
 describe('jest-webpack-alias module', function() {
 
-  var dirHas, fs, webpackAlias, webpackInfo;
+  var dirHas, filename, fs, webpackAlias, webpackInfo;
 
   function setup() {
     var setup = basicFixture.getWebpackAlias();
@@ -20,7 +20,9 @@ describe('jest-webpack-alias module', function() {
   beforeEach(setup);
 
   describe('with file in first dir', function() {
-    var filename = '/top/test/file1.test.js';
+    beforeEach(function() {
+      filename = '/top/test/file1.test.js';
+    });
 
     it('resolves with file extension', function() {
       var src = "var lib1a = require('dir1/lib1a');";
@@ -43,7 +45,7 @@ describe('jest-webpack-alias module', function() {
       expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.js');");
     });
 
-    it('falls back to hit without extension if no exact match found', function() {
+    it('falls back to no extension if no exact match found', function() {
       var src = "var lib1a = require('dir1/lib1a.noext');";
       var output = webpackAlias.process(src, filename);
 
@@ -58,7 +60,9 @@ describe('jest-webpack-alias module', function() {
   });
 
   describe('with file in same dir', function() {
-    var filename = '/top/src/dir1/lib1b-2b.js';
+    beforeEach(function() {
+      filename = '/top/src/dir1/lib1b-2b.js';
+    });
 
     it('uses ./ in relative path', function() {
       var src = "var lib1a = require('dir1/lib1a');";
@@ -74,7 +78,9 @@ describe('jest-webpack-alias module', function() {
   });
 
   describe('with file in node_modules', function() {
-    var filename = '/top/test/file1.test.js';
+    beforeEach(function() {
+      filename = '/top/test/file1.test.js';
+    });
 
     it('resolves top-level dir, but leaves dependency alone', function() {
       var src = "var lib1a = require('node1');";
@@ -102,7 +108,9 @@ describe('jest-webpack-alias module', function() {
   });
 
   describe('with file in web_modules', function() {
-    var filename = '/top/test/file1.test.js';
+    beforeEach(function() {
+      filename = '/top/test/file1.test.js';
+    });
 
     it('resolves top-level file, adding file extension', function() {
       var src = "var lib1a = require('web2');";
@@ -124,7 +132,9 @@ describe('jest-webpack-alias module', function() {
   });
 
   describe('with nonexistent file', function() {
-    var filename = '/top/test/file1.test.js';
+    beforeEach(function() {
+      filename = '/top/test/file1.test.js';
+    });
 
     it('resolves top-level file, adding file extension', function() {
       var src = "var lib1a = require('bogus1');";
@@ -146,14 +156,43 @@ describe('jest-webpack-alias module', function() {
   });
 
   describe('with relative file', function() {
-    var filename = '/top/src/dir1/lib2.js';
+    beforeEach(function() {
+      filename = '/top/src/dir1/lib1b-2b.js';
+    });
 
-    it('skips any kind of processing', function() {
-      var src = "var lib1a = require('./lib1');";
+    it('adds extension on ./', function() {
+      var src = "var lib1a = require('./lib1a');";
       var output = webpackAlias.process(src, filename);
 
-      expect(dirHas).not.to.be.called;
-      expect(output).to.eq("var lib1a = require('./lib1');");
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(2);
+      expect(dirHas.args[0]).to.eql(['/top/src/dir1', 'lib1a']);
+      expect(dirHas.args[1]).to.eql(['/top/src/dir1', 'lib1a.js']);
+      expect(output).to.eq("var lib1a = require('./lib1a.js');");
+    });
+
+    it('adds extension on ../', function() {
+      filename = '/top/src/dir1/dir1-1/lib1-1a.js';
+      var src = "var lib1a = require('../lib1a');";
+      var output = webpackAlias.process(src, filename);
+
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(2);
+      expect(dirHas.args[0]).to.eql(['/top/src/dir1', 'lib1a']);
+      expect(dirHas.args[1]).to.eql(['/top/src/dir1', 'lib1a.js']);
+      expect(output).to.eq("var lib1a = require('../lib1a.js');");
+    });
+
+    it('uses no extension if no match found', function() {
+      var src = "var lib1a = require('./bogus');";
+      var output = webpackAlias.process(src, filename);
+
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(3);
+      expect(dirHas.args[0]).to.eql(['/top/src/dir1', 'bogus']);
+      expect(dirHas.args[1]).to.eql(['/top/src/dir1', 'bogus.js']);
+      expect(dirHas.args[2]).to.eql(['/top/src/dir1', 'bogus.jsx']);
+      expect(output).to.eq("var lib1a = require('./bogus');");
     });
   });
 });
