@@ -1,5 +1,6 @@
 var expect = require('./lib/expect');
 var basicFixture = require('./fixture/basic');
+var unwin = require('unwin');
 
 describe('webpackInfo lib', function() {
   var fakeRequire, pkginfo, readFile, requireContents, webpackInfo, webpackProfile;
@@ -24,11 +25,9 @@ describe('webpackInfo lib', function() {
       expect(pkginfo.read).to.be.calledOnce;
       expect(pkginfo.read.args[0][0]).to.eql({filename: filename});
       expect(fakeRequire).to.be.calledOnce;
-      expect(fakeRequire.args[0][0]).to.eql(webpackFile);
-      expect(output).to.eql({
-        config: requireContents[webpackFile][webpackProfile],
-        file: webpackFile
-      });
+      expect(unwin(fakeRequire.args[0][0])).to.eql(webpackFile);
+      expect(output).to.have.deep.property('config', requireContents[webpackFile][webpackProfile]);
+      expect(unwin(output.file)).to.eql(webpackFile);
     });
   });
 });

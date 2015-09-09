@@ -1,5 +1,6 @@
 var rewire = require('rewire');
 var sinon = require('sinon');
+var unwin = require('unwin');
 
 var readdir = {
   '/top': ['node_modules', 'package.json', 'src', 'test', 'web_modules', 'webpack.config.js'],
@@ -66,7 +67,7 @@ function getWebpackInfo() {
   var webpackInfo = rewire('../../lib/webpackInfo');
 
   var fakeRequire = sinon.spy(function(inPath) {
-    return requireContents[inPath] || require(inPath);
+    return requireContents[unwin(inPath)] || require(inPath);
   });
   webpackInfo.__set__('require', fakeRequire);
 

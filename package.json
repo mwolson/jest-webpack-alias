@@ -23,7 +23,8 @@
     "@ticketmaster/transform-deps": "^1.1.0",
     "acorn-jsx": "^2.0.0",
     "lodash": "^3.10.1",
-    "pkginfo": "^0.3.0"
+    "pkginfo": "^0.3.0",
+    "unwin": "^1.0.1"
   },
   "devDependencies": {
     "chai": "^3.2.0",
