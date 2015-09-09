@@ -60,7 +60,7 @@ describe('jest-webpack-alias module', function() {
   describe('with file in node_modules', function() {
     var filename = '/top/test/file1.test.js';
 
-    it('resolves top-level dir', function() {
+    it('resolves top-level dir, but leaves dependency alone', function() {
       var src = "var lib1a = require('node1');";
       var output = webpackAlias.process(src, filename);
 
@@ -70,20 +70,18 @@ describe('jest-webpack-alias module', function() {
       expect(dirHas.args[1]).to.eql(['/top/src', 'node1.js']);
       expect(dirHas.args[2]).to.eql(['/top/src', 'node1.jsx']);
       expect(dirHas.args[3]).to.eql(['/top/node_modules', 'node1']);
-      expect(output).to.eq("var lib1a = require('../node_modules/node1');");
+      expect(output).to.eq("var lib1a = require('node1');");
     });
 
-    it('resolves submodule, adding file extension', function() {
+    it('resolves submodule, but leaves dependency alone', function() {
       var src = "var lib1a = require('node1/lib/submodule');";
       var output = webpackAlias.process(src, filename);
 
       expect(dirHas).to.be.called;
-      expect(dirHas.args).to.have.length(4);
+      expect(dirHas.args).to.have.length(2);
       expect(dirHas.args[0]).to.eql(['/top/src', 'node1']);
       expect(dirHas.args[1]).to.eql(['/top/node_modules', 'node1']);
-      expect(dirHas.args[2]).to.eql(['/top/node_modules/node1/lib', 'submodule']);
-      expect(dirHas.args[3]).to.eql(['/top/node_modules/node1/lib', 'submodule.js']);
-      expect(output).to.eq("var lib1a = require('../node_modules/node1/lib/submodule.js');");
+      expect(output).to.eq("var lib1a = require('node1/lib/submodule');");
     });
   });
 
