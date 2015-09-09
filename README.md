@@ -63,6 +63,7 @@ File `package.json`:
 
 This module does not yet support:
 
+- Rewriting paths in `jest.dontMock()` lines
 - `resolve.alias` (ironically, given package name)
 
 ## License
