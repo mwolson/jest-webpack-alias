@@ -47,6 +47,7 @@ function getDirHas() {
 
   var fs = {
     readdirSync: sinon.spy(function(inPath) {
+      inPath = unwin(inPath);
       var dirList = readdir[inPath];
       if (!dirList) {
         throw new Error('unmocked readdirSync for path ' + inPath);
@@ -97,7 +98,7 @@ function getWebpackAlias() {
 
   var fs = {
     existsSync: sinon.spy(function(inPath) {
-      return !!readdir[inPath];
+      return !!readdir[unwin(inPath)];
     })
   };
   webpackAlias.__set__('fs', fs);
