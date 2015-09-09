@@ -57,6 +57,22 @@ describe('jest-webpack-alias module', function() {
     });
   });
 
+  describe('with file in same dir', function() {
+    var filename = '/top/src/dir1/lib1b-2b.js';
+
+    it('uses ./ in relative path', function() {
+      var src = "var lib1a = require('dir1/lib1a');";
+      var output = webpackAlias.process(src, filename);
+
+      expect(dirHas).to.be.called;
+      expect(dirHas.args).to.have.length(3);
+      expect(dirHas.args[0]).to.eql(['/top/src', 'dir1']);
+      expect(dirHas.args[1]).to.eql(['/top/src/dir1', 'lib1a']);
+      expect(dirHas.args[2]).to.eql(['/top/src/dir1', 'lib1a.js']);
+      expect(output).to.eq("var lib1a = require('./lib1a.js');");
+    });
+  });
+
   describe('with file in node_modules', function() {
     var filename = '/top/test/file1.test.js';
 
