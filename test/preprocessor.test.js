@@ -70,6 +70,22 @@ describe('jest-webpack-alias module', function() {
       ]);
       expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.noext');");
     });
+
+    it('operates on jest.dontMock statements', function() {
+      var src = "jest.dontMock('dir1/lib1a');";
+      var output = webpackAlias.process(src, filename);
+
+      verifyExistsSync([
+        ['/top/src'], ['/top/bogus_dir'], ['/top/node_modules'], ['/top/web_modules']
+      ]);
+      verifyDirHas([
+        ['/top/src', 'dir1'],
+        ['/top/src/dir1', 'lib1a'],
+        ['/top/src/dir1', 'lib1a.js']
+      ]);
+      expect(webpackInfo.read).to.be.calledOnce;
+      expect(output).to.eq("jest.dontMock('../src/dir1/lib1a.js');");
+    });
   });
 
   describe('with file in same dir', function() {

@@ -4,13 +4,13 @@ Preprocessor for Jest that is able to resolve `require()` statements using webpa
 
 [![NPM](https://nodei.co/npm/jest-webpack-alias.png)](https://nodei.co/npm/jest-webpack-alias/)
 
+See also [transform-jest-deps](https://github.com/Ticketmaster/transform-jest-deps).
+
 ## Install
 
 ```sh
 npm install --save-dev jest-webpack-alias
 ```
-
-Requires npm >= 2.0 for the `@ticketmaster/transform-deps` dependency.
 
 ## Examples
 
@@ -63,8 +63,7 @@ File `package.json`:
 
 This module does not yet support:
 
-- Rewriting paths in `jest.dontMock()` lines
-- `resolve.alias` (ironically, given package name)
+- The webpack `resolve.alias` setting (ironically, given package name)
 
 ## License
 
