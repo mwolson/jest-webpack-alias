@@ -63,7 +63,7 @@ File `package.json`:
 
 This module does not yet support:
 
-- The webpack `resolve.alias` setting (ironically, given package name)
+- `resolve.alias` settings whose values are absolute paths
 
 ## License
 

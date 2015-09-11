@@ -4,11 +4,11 @@ var unwin = require('unwin');
 
 var readdir = {
   '/top': ['node_modules', 'package.json', 'src', 'test', 'web_modules', 'webpack.config.js'],
-  '/top/node_modules': ['node1', 'node2'],
+  '/top/node_modules': ['aliasNodeFileDest.js', 'node1', 'node2'],
   '/top/node_modules/node1': ['lib'],
   '/top/node_modules/node1/lib': ['submodule.js'],
   '/top/web_modules': ['web1', 'web2.jsx'],
-  '/top/src': ['dir1', 'dir2'],
+  '/top/src': ['aliasRelative.js', 'dir1', 'dir2'],
   '/top/src/dir1': ['lib1a.js', 'lib1b-2b.js', 'dir1-1'],
   '/top/src/dir1/dir1-1': ['lib1-1a.js'],
   '/top/src/dir2': ['lib2a.js', 'lib1b-2b.js'],
@@ -25,7 +25,10 @@ webpackSettings[webpackProfile] = {
     // omitted: fallback
     // omitted: modulesDirectories
     alias: {
-      aliasSrc: 'aliasDest'
+      aliasNodeSubdir1Src: 'node1',
+      aliasNodeSubdir2Src: 'node1/lib/submodule',
+      aliasNodeFileSrc: 'aliasNodeFileDest',
+      aliasPlainSubdirSrc: 'dir1/lib1a'
     }
   }
 };
