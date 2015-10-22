@@ -54,16 +54,19 @@ File `package.json`:
     "scriptPreprocessor": "<rootDir>/__tests__/preprocessor.js",
   },
   "jest-webpack-alias": {
-    // Required. If non-null value provided, will expect to find your webpack config stored at this key. Set to null
-    // for a regular webpack config file. See https://github.com/webpack/webpack/tree/master/examples/multi-compiler
-    // for details about webpack profiles/environments.
-    "webpackProfile": null
-
-    // optional, default is "webpack.config.js"
-    "webpackConfigPath": "webpack/config.dev.js"
+    "profile": "dev"
   }
 }
 ```
+
+## package.json options
+
+- `jest-webpack-alias.configFile`: Optional, default is `"webpack.config.js"`. If provided, this should be a path
+  fragment relative to your `package.json` file.  Example: `"webpack/config.dev.js"`.
+
+- `jest-webpack-alias.profile`: Optional. If provided, will expect your webpack config to be an array of profiles, and
+  will match against the `name` field of each to choose a webpack config that applies to your Jest tests. See
+  https://github.com/webpack/webpack/tree/master/examples/multi-compiler for an example of this kind of setup.
 
 ## Missing features
 
