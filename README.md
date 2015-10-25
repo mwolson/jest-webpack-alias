@@ -54,7 +54,13 @@ File `package.json`:
     "scriptPreprocessor": "<rootDir>/__tests__/preprocessor.js",
   },
   "jest-webpack-alias": {
-    "webpackProfile": "dev"
+    // Required. If non-null value provided, will expect to find your webpack config stored at this key. Set to null
+    // for a regular webpack config file. See https://github.com/webpack/webpack/tree/master/examples/multi-compiler
+    // for details about webpack profiles/environments.
+    "webpackProfile": null
+
+    // optional, default is "webpack.config.js"
+    "webpackConfigPath": "webpack/config.dev.js"
   }
 }
 ```
