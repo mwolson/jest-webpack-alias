@@ -2,8 +2,6 @@
 
 Preprocessor for Jest that is able to resolve `require()` statements using webpack aliases.
 
-[![NPM](https://nodei.co/npm/jest-webpack-alias.png)](https://nodei.co/npm/jest-webpack-alias/)
-
 See also [transform-jest-deps](https://github.com/Ticketmaster/transform-jest-deps).
 
 ## Install
