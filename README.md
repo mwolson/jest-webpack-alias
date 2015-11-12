@@ -12,7 +12,7 @@ npm install --save-dev jest-webpack-alias
 
 ## Examples
 
-File `__tests__/preprocess.js`:
+File `__tests__/preprocessor.js`:
 
 ```js
 var _ = require('lodash');
