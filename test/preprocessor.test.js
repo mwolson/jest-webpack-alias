@@ -7,7 +7,6 @@ var sinon = require('sinon');
 var unwin = require('unwin');
 
 describe('jest-webpack-alias module', function() {
-
   var dirHas, filename, fs, webpackAlias, webpackInfo;
 
   function setup() {
@@ -293,6 +292,19 @@ describe('jest-webpack-alias module', function() {
         ['/top/src', 'aliasRelative.js']
       ]);
       expect(output).to.eq("var lib1a = require('../src/aliasRelative.js');");
+    });
+
+    describe('resolve', function() {
+      it('applies alias to subdir paths', function() {
+        var resolved = webpackAlias.resolve('aliasPlainSubdirSrc', filename);
+
+        verifyDirHas([
+          ['/top/src', 'dir1'],
+          ['/top/src/dir1', 'lib1a'],
+          ['/top/src/dir1', 'lib1a.js']
+        ]);
+        expect(resolved).to.eq('../src/dir1/lib1a.js');
+      });
     });
   });
 });

@@ -10,30 +10,17 @@ See also [transform-jest-deps](https://github.com/Ticketmaster/transform-jest-de
 npm install --save-dev jest-webpack-alias
 ```
 
-## Examples
+## Setup
 
 File `__tests__/preprocessor.js`:
 
 ```js
-var _ = require('lodash');
 var babelJest = require('babel-jest');
-var path = require('path');
 var webpackAlias = require('jest-webpack-alias');
-
-// Change these to point to your source and test directories
-var dirs = ['../lib', '../__tests__'].map(function(dir) {
-  return path.resolve(__dirname, dir);
-});
-
-function matches(filename) {
-  return _.find(dirs, function(dir) {
-    return filename.indexOf(dir) === 0;
-  });
-}
 
 module.exports = {
   process: function(src, filename) {
-    if (matches(filename)) {
+    if (filename.indexOf('node_modules') === -1) {
       src = babelJest.process(src, filename);
       src = webpackAlias.process(src, filename);
     }
@@ -55,6 +42,23 @@ File `package.json`:
     "profile": "dev"
   }
 }
+```
+
+## Manual package resolution
+
+Code like this will not work, because an AST parser is not smart enough to evaluate variables into strings.
+
+```js
+var moduleName = 'myModName';
+var computed = require(moduleName);
+```
+
+It can be rewritten like this, using the `resolve` function:
+
+```js
+var resolve = require('jest-webpack-alias').resolve;
+var moduleName = 'myModName';
+var computed = require(resolve(moduleName, __filename));
 ```
 
 ## package.json options
