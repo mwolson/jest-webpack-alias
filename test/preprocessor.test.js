@@ -50,10 +50,12 @@ describe('jest-webpack-alias module', function() {
       var output = webpackAlias.process(src, filename);
 
       verifyExistsSync([
-        ['/top/src'], ['/top/bogus_dir'], ['/top/node_modules'], ['/top/web_modules']
+        ['/top/test/__mocks__'], ['/top/src'], ['/top/bogus_dir'], ['/top/node_modules'], ['/top/web_modules']
       ]);
       verifyDirHas([
-        ['/top/src', 'dir1'],
+        ['/top/test/__mocks__/dir1', 'lib1a'],
+        ['/top/test/__mocks__/dir1', 'lib1a.js'],
+        ['/top/test/__mocks__/dir1', 'lib1a.jsx'],
         ['/top/src/dir1', 'lib1a'],
         ['/top/src/dir1', 'lib1a.js']
       ]);
@@ -61,28 +63,35 @@ describe('jest-webpack-alias module', function() {
       expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.js');");
     });
 
-    it('falls back to no extension if no exact match found', function() {
+    it('if no exact match found, does not modify dependency', function() {
       var src = "var lib1a = require('dir1/lib1a.noext');";
       var output = webpackAlias.process(src, filename);
 
       verifyDirHas([
-        ['/top/src', 'dir1'],
+        ['/top/test/__mocks__/dir1', 'lib1a.noext'],
+        ['/top/test/__mocks__/dir1', 'lib1a.noext.js'],
+        ['/top/test/__mocks__/dir1', 'lib1a.noext.jsx'],
         ['/top/src/dir1', 'lib1a.noext'],
         ['/top/src/dir1', 'lib1a.noext.js'],
-        ['/top/src/dir1', 'lib1a.noext.jsx']
+        ['/top/src/dir1', 'lib1a.noext.jsx'],
+        ['/top/node_modules/dir1', 'lib1a.noext'],
+        ['/top/node_modules/dir1', 'lib1a.noext.js'],
+        ['/top/node_modules/dir1', 'lib1a.noext.jsx'],
+        ['/top/web_modules/dir1', 'lib1a.noext'],
+        ['/top/web_modules/dir1', 'lib1a.noext.js'],
+        ['/top/web_modules/dir1', 'lib1a.noext.jsx']
       ]);
-      expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.noext');");
+      expect(output).to.eq("var lib1a = require('dir1/lib1a.noext');");
     });
 
     it('operates on jest.dontMock statements', function() {
       var src = "jest.dontMock('dir1/lib1a');";
       var output = webpackAlias.process(src, filename);
 
-      verifyExistsSync([
-        ['/top/src'], ['/top/bogus_dir'], ['/top/node_modules'], ['/top/web_modules']
-      ]);
       verifyDirHas([
-        ['/top/src', 'dir1'],
+        ['/top/test/__mocks__/dir1', 'lib1a'],
+        ['/top/test/__mocks__/dir1', 'lib1a.js'],
+        ['/top/test/__mocks__/dir1', 'lib1a.jsx'],
         ['/top/src/dir1', 'lib1a'],
         ['/top/src/dir1', 'lib1a.js']
       ]);
@@ -101,7 +110,9 @@ describe('jest-webpack-alias module', function() {
       var output = webpackAlias.process(src, filename);
 
       verifyDirHas([
-        ['/top/src', 'dir1'],
+        ['/top/test/__mocks__/dir1', 'lib1a'],
+        ['/top/test/__mocks__/dir1', 'lib1a.js'],
+        ['/top/test/__mocks__/dir1', 'lib1a.jsx'],
         ['/top/src/dir1', 'lib1a'],
         ['/top/src/dir1', 'lib1a.js']
       ]);
@@ -119,6 +130,9 @@ describe('jest-webpack-alias module', function() {
       var output = webpackAlias.process(src, filename);
 
       verifyDirHas([
+        ['/top/test/__mocks__', 'node1'],
+        ['/top/test/__mocks__', 'node1.js'],
+        ['/top/test/__mocks__', 'node1.jsx'],
         ['/top/src', 'node1'],
         ['/top/src', 'node1.js'],
         ['/top/src', 'node1.jsx'],
@@ -127,13 +141,19 @@ describe('jest-webpack-alias module', function() {
       expect(output).to.eq("var lib1a = require('node1');");
     });
 
-    it('resolves submodule, but leaves dependency alone', function() {
+    it('resolves submodule, trying first at file level, but leaves dependency alone', function() {
       var src = "var lib1a = require('node1/lib/submodule');";
       var output = webpackAlias.process(src, filename);
 
       verifyDirHas([
-        ['/top/src', 'node1'],
-        ['/top/node_modules', 'node1']
+        ['/top/test/__mocks__/node1/lib', 'submodule'],
+        ['/top/test/__mocks__/node1/lib', 'submodule.js'],
+        ['/top/test/__mocks__/node1/lib', 'submodule.jsx'],
+        ['/top/src/node1/lib', 'submodule'],
+        ['/top/src/node1/lib', 'submodule.js'],
+        ['/top/src/node1/lib', 'submodule.jsx'],
+        ['/top/node_modules/node1/lib', 'submodule'],
+        ['/top/node_modules/node1/lib', 'submodule.js']
       ]);
       expect(output).to.eq("var lib1a = require('node1/lib/submodule');");
     });
@@ -149,6 +169,9 @@ describe('jest-webpack-alias module', function() {
       var output = webpackAlias.process(src, filename);
 
       verifyDirHas([
+        ['/top/test/__mocks__', 'web2'],
+        ['/top/test/__mocks__', 'web2.js'],
+        ['/top/test/__mocks__', 'web2.jsx'],
         ['/top/src', 'web2'],
         ['/top/src', 'web2.js'],
         ['/top/src', 'web2.jsx'],
@@ -173,6 +196,9 @@ describe('jest-webpack-alias module', function() {
       var output = webpackAlias.process(src, filename);
 
       verifyDirHas([
+        ['/top/test/__mocks__', 'bogus1'],
+        ['/top/test/__mocks__', 'bogus1.js'],
+        ['/top/test/__mocks__', 'bogus1.jsx'],
         ['/top/src', 'bogus1'],
         ['/top/src', 'bogus1.js'],
         ['/top/src', 'bogus1.jsx'],
@@ -234,11 +260,14 @@ describe('jest-webpack-alias module', function() {
     });
 
     describe('with destination of node_modules', function() {
-      it('applies alias to simple paths with no extension change', function() {
+      it('applies alias to top-level paths with no extension change', function() {
         var src = "var lib1a = require('aliasNodeFileSrc');";
         var output = webpackAlias.process(src, filename);
 
         verifyDirHas([
+          ['/top/test/__mocks__', 'aliasNodeFileDest'],
+          ['/top/test/__mocks__', 'aliasNodeFileDest.js'],
+          ['/top/test/__mocks__', 'aliasNodeFileDest.jsx'],
           ['/top/src', 'aliasNodeFileDest'],
           ['/top/src', 'aliasNodeFileDest.js'],
           ['/top/src', 'aliasNodeFileDest.jsx'],
@@ -253,19 +282,31 @@ describe('jest-webpack-alias module', function() {
         var output = webpackAlias.process(src, filename);
 
         verifyDirHas([
-          ['/top/src', 'node1'],
-          ['/top/node_modules', 'node1']
+          ['/top/test/__mocks__/node1/lib', 'submodule'],
+          ['/top/test/__mocks__/node1/lib', 'submodule.js'],
+          ['/top/test/__mocks__/node1/lib', 'submodule.jsx'],
+          ['/top/src/node1/lib', 'submodule'],
+          ['/top/src/node1/lib', 'submodule.js'],
+          ['/top/src/node1/lib', 'submodule.jsx'],
+          ['/top/node_modules/node1/lib', 'submodule'],
+          ['/top/node_modules/node1/lib', 'submodule.js']
         ]);
         expect(output).to.eq("var lib1a = require('node1/lib/submodule');");
       });
 
-      it('replaces subdir paths with alias destination', function() {
-        var src = "var lib1a = require('aliasNodeSubdir2Src/ignore/this');";
+      it('applies alias definitions that contain subdirs', function() {
+        var src = "var lib1a = require('aliasNodeSubdir2Src');";
         var output = webpackAlias.process(src, filename);
 
         verifyDirHas([
-          ['/top/src', 'node1'],
-          ['/top/node_modules', 'node1']
+          ['/top/test/__mocks__/node1/lib', 'submodule'],
+          ['/top/test/__mocks__/node1/lib', 'submodule.js'],
+          ['/top/test/__mocks__/node1/lib', 'submodule.jsx'],
+          ['/top/src/node1/lib', 'submodule'],
+          ['/top/src/node1/lib', 'submodule.js'],
+          ['/top/src/node1/lib', 'submodule.jsx'],
+          ['/top/node_modules/node1/lib', 'submodule'],
+          ['/top/node_modules/node1/lib', 'submodule.js']
         ]);
         expect(output).to.eq("var lib1a = require('node1/lib/submodule');");
       });
@@ -276,7 +317,9 @@ describe('jest-webpack-alias module', function() {
       var output = webpackAlias.process(src, filename);
 
       verifyDirHas([
-        ['/top/src', 'dir1'],
+        ['/top/test/__mocks__/dir1', 'lib1a'],
+        ['/top/test/__mocks__/dir1', 'lib1a.js'],
+        ['/top/test/__mocks__/dir1', 'lib1a.jsx'],
         ['/top/src/dir1', 'lib1a'],
         ['/top/src/dir1', 'lib1a.js']
       ]);
@@ -293,18 +336,28 @@ describe('jest-webpack-alias module', function() {
       ]);
       expect(output).to.eq("var lib1a = require('../src/aliasRelative.js');");
     });
+  });
 
-    describe('resolve', function() {
-      it('applies alias to subdir paths', function() {
-        var resolved = webpackAlias.resolve('aliasPlainSubdirSrc', filename);
+  describe('resolve', function() {
+    beforeEach(function() {
+      filename = '/top/test/file1.test.js';
+    });
 
-        verifyDirHas([
-          ['/top/src', 'dir1'],
-          ['/top/src/dir1', 'lib1a'],
-          ['/top/src/dir1', 'lib1a.js']
-        ]);
-        expect(resolved).to.eq('../src/dir1/lib1a.js');
-      });
+    it('resolves with file extension', function() {
+      var resolved = webpackAlias.resolve('dir1/lib1a', filename);
+
+      verifyExistsSync([
+        ['/top/test/__mocks__'], ['/top/src'], ['/top/bogus_dir'], ['/top/node_modules'], ['/top/web_modules']
+      ]);
+      verifyDirHas([
+        ['/top/test/__mocks__/dir1', 'lib1a'],
+        ['/top/test/__mocks__/dir1', 'lib1a.js'],
+        ['/top/test/__mocks__/dir1', 'lib1a.jsx'],
+        ['/top/src/dir1', 'lib1a'],
+        ['/top/src/dir1', 'lib1a.js']
+      ]);
+      expect(webpackInfo.read).to.be.calledOnce;
+      expect(resolved).to.eq('../src/dir1/lib1a.js');
     });
   });
 });

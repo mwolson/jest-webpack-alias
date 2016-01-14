@@ -70,11 +70,10 @@ var computed = require(resolve(moduleName, __filename));
   will match against the `name` field of each to choose a webpack config that applies to your Jest tests. See
   https://github.com/webpack/webpack/tree/master/examples/multi-compiler for an example of this kind of setup.
 
-## Missing features
+## Known issues
 
-This module does not yet support:
-
-- `resolve.alias` settings whose values are absolute paths
+- `resolve.alias` settings whose values are absolute paths might not work
+- `resolve.modulesDirectories` only searches the directory containing your package.json file, not all ancestors of current file
 
 ## License
 

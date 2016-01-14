@@ -11,7 +11,12 @@ fixture.readdir = {
   '/top/src/dir1': ['lib1a.js', 'lib1b-2b.js', 'dir1-1'],
   '/top/src/dir1/dir1-1': ['lib1-1a.js'],
   '/top/src/dir2': ['lib2a.js', 'lib1b-2b.js'],
-  '/top/test': ['file1.test.js', 'file2.test.js']
+  '/top/src/dir3': ['dir3-1'],
+  '/top/src/dir3/dir3-1': ['mocked.js'],
+  '/top/test': ['file1.test.js', 'file2.test.js', '__mocks__'],
+  '/top/test/__mocks__': ['dir3'],
+  '/top/test/__mocks__/dir3': ['dir3-1'],
+  '/top/test/__mocks__/dir3/dir3-1': ['mocked.js']
 };
 
 var webpackProfile = fixture.webpackProfile = 'dev';
@@ -26,7 +31,7 @@ var webpackSettings = fixture.webpackSettings = [
   {
     name: webpackProfile,
     resolve: {
-      root: ['/top/src', '/top/bogus_dir'],
+      root: ['/top/test/__mocks__', '/top/src', '/top/bogus_dir'],
       extensions: ["", ".js", ".jsx"],
       // omitted: fallback
       // omitted: modulesDirectories
