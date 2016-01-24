@@ -16,8 +16,7 @@ File `__tests__/preprocessor.js`:
 
 ```js
 var babelJest = require('babel-jest');
-// Uncomment this to support ES6 'import' statements:
-// require('babel-register');
+require('babel-register'); // support ES6 'import' statements
 var webpackAlias = require('jest-webpack-alias');
 
 module.exports = {
@@ -46,7 +45,9 @@ File `package.json`:
 }
 ```
 
-## Manual package resolution
+## Common problems
+
+### Manual package resolution
 
 Code like this will not work, because an AST parser is not smart enough to evaluate variables into strings.
 
@@ -63,7 +64,7 @@ var moduleName = 'myModName';
 var computed = require(resolve(moduleName, __filename));
 ```
 
-## Non-javascript package resolution.
+### Non-javascript package resolution
 
 Code like this will fail, because it is resolved by webpack loader.
 
@@ -73,7 +74,7 @@ require('./style.css');
 ...
 ```
 
-File: `__tests__/main.js`
+File: `__tests__/main-test.js`
 ```js
 jest.dontMock('../main.js');
 require('../main.js');
@@ -90,7 +91,7 @@ Project structure:
     +- src /            
     |      +- main.js
     |      +- style.css
-    +- __tests__ / src / main.js
+    +- __tests__ / src / main-test.js
     +- __mocks__ / src / style.css
     +- package.json
     +- webpack.config.js
@@ -104,7 +105,7 @@ require('style.scss');
 ...
 ```
 
-File: `__tests__/src/main.js`
+File: `__tests__/src/main-test.js`
 ```
 jest.dontMock('../../src/main');
 var main = require('../../src/main');
