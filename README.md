@@ -12,10 +12,12 @@ npm install --save-dev jest-webpack-alias
 
 ## Setup
 
-File `__tests__/preprocessor.js` (for `webpack.config.js` in `ES5`):
+File `__tests__/preprocessor.js`:
 
 ```js
 var babelJest = require('babel-jest');
+// Uncomment this to support ES6 'import' statements:
+// require('babel-register');
 var webpackAlias = require('jest-webpack-alias');
 
 module.exports = {
@@ -28,26 +30,6 @@ module.exports = {
   }
 };
 ```
-
-
-File `__tests__/preprocessor.js` (for `webpack.config.js` in `ES6`):
-
-```js
-var babelJest = require('babel-jest');
-require('babel-register');
-var webpackAlias = require('jest-webpack-alias');
-
-module.exports = {
-  process: function(src, filename) {
-    if (filename.indexOf('node_modules') === -1) {
-      src = babelJest.process(src, filename);
-      src = webpackAlias.process(src, filename);
-    }
-    return src;
-  }
-};
-```
-
 
 File `package.json`:
 
