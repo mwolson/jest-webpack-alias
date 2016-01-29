@@ -64,59 +64,6 @@ var moduleName = 'myModName';
 var computed = require(resolve(moduleName, __filename));
 ```
 
-### Non-javascript package resolution
-
-Code like this will fail, because it is resolved by webpack loader.
-
-File: `main.js`
-```js
-require('./style.css');
-...
-```
-
-File: `__tests__/main-test.js`
-```js
-jest.dontMock('../main.js');
-require('../main.js');
-...
-```
-
-The workaround for this is to use [Manual Mocks](https://github.com/facebook/jest/blob/master/docs/ManualMocks.md).
-
-#### Example
-
-Project structure:
-```
---+ /            
-    +- src /            
-    |      +- main.js
-    |      +- style.css
-    +- __tests__ / src / main-test.js
-    +- __mocks__ / src / style.css
-    +- package.json
-    +- webpack.config.js
-    +- node_modules /
-```
-
-File: `src/main.js`
-```
-...
-require('style.scss');
-...
-```
-
-File: `__tests__/src/main-test.js`
-```
-jest.dontMock('../../src/main');
-var main = require('../../src/main');
-...
-```
-
-File: `__mocks__/src/style.scss`
-```
-module.exports = 'src/style.scss';
-```
-
 ## package.json options
 
 - `jest-webpack-alias.configFile`: Optional, default is `"webpack.config.js"`. If provided, this should be a path
