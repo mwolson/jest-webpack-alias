@@ -16,8 +16,7 @@ File `__tests__/preprocessor.js`:
 
 ```js
 var babelJest = require('babel-jest');
-// Uncomment this to support ES6 'import' statements:
-// require('babel-register');
+require('babel-register'); // support ES6 'import' statements
 var webpackAlias = require('jest-webpack-alias');
 
 module.exports = {
@@ -46,7 +45,9 @@ File `package.json`:
 }
 ```
 
-## Manual package resolution
+## Common problems
+
+### Manual package resolution
 
 Code like this will not work, because an AST parser is not smart enough to evaluate variables into strings.
 
