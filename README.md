@@ -90,30 +90,33 @@ Project structure:
     +- src /            
     |      +- main.js
     |      +- style.css
-    +- __tests__ / src / main.js
-    +- __mocks__ / src / style.css
+    |      +- __tests__ / main.js
+    |      +- __mocks__ / style.css
+    +- __tests__ /
+    |            +- preprocessor.js
+    +- node_modules /
     +- package.json
     +- webpack.config.js
-    +- node_modules /
+    
 ```
 
 File: `src/main.js`
 ```
 ...
-require('style.scss');
+require('style.css');
 ...
 ```
 
-File: `__tests__/src/main.js`
+File: `src/__tests__/main.js` (`__tests__` can actually be anywhere, not only next to tested files)
 ```
-jest.dontMock('../../src/main');
-var main = require('../../src/main');
+jest.dontMock('../main');
+var main = require('../main');
 ...
 ```
 
-File: `__mocks__/src/style.scss`
+File: `src/__mocks__/style.css` (`__mocks__` __must__ be next to mocked files)
 ```
-module.exports = 'src/style.scss';
+module.exports = 'src/style.css';
 ```
 
 ## package.json options
