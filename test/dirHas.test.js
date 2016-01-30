@@ -1,3 +1,4 @@
+require('blanket');
 var expect = require('./lib/expect');
 var basicFixture = require('./fixture/basic');
 var cacheize = require('../lib/cacheize');
