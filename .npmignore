@@ -1,0 +1,6 @@
+.gitignore
+.npmignore
+.travis.yml
+node_modules
+/test
+/coverage.json
