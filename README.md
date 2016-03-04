@@ -1,6 +1,8 @@
 # jest-webpack-alias
 
-[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url]
+[![Build Status][travis-image]][travis-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![NPM][npm-image]][npm-url]
 
 Preprocessor for Jest that is able to resolve `require()` statements using webpack aliases.
 
@@ -89,3 +91,6 @@ MIT
 
 [coveralls-image]: https://coveralls.io/repos/github/Ticketmaster/jest-webpack-alias/badge.svg?branch=issue-10
 [coveralls-url]: https://coveralls.io/github/Ticketmaster/jest-webpack-alias?branch=issue-10
+
+[npm-image]: https://img.shields.io/npm/v/jest-webpack-alias.svg?style=flat
+[npm-url]: https://www.npmjs.com/package/jest-webpack-alias
