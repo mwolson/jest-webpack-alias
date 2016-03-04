@@ -1,5 +1,6 @@
 .gitignore
 .npmignore
-.travis.yml
 node_modules
+/.coveralls.yml
+/.travis.yml
 /test
