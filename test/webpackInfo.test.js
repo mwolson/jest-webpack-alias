@@ -1,4 +1,3 @@
-require('blanket');
 var _ = require('lodash');
 var expect = require('./lib/expect');
 var unwin = require('unwin');
