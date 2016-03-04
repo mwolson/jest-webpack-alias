@@ -86,11 +86,11 @@ var computed = require(resolve(moduleName, __filename));
 
 MIT
 
-[travis-image]: https://travis-ci.org/Ticketmaster/jest-webpack-alias.svg?branch=issue-10
+[travis-image]: https://travis-ci.org/Ticketmaster/jest-webpack-alias.svg?branch=master
 [travis-url]: https://travis-ci.org/Ticketmaster/jest-webpack-alias
 
-[coveralls-image]: https://coveralls.io/repos/github/Ticketmaster/jest-webpack-alias/badge.svg?branch=issue-10
-[coveralls-url]: https://coveralls.io/github/Ticketmaster/jest-webpack-alias?branch=issue-10
+[coveralls-image]: https://coveralls.io/repos/github/Ticketmaster/jest-webpack-alias/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/Ticketmaster/jest-webpack-alias?branch=master
 
 [npm-image]: https://img.shields.io/npm/v/jest-webpack-alias.svg?style=flat
 [npm-url]: https://www.npmjs.com/package/jest-webpack-alias
