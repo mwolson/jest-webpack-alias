@@ -1,0 +1,6 @@
+.gitignore
+.npmignore
+node_modules
+/.coveralls.yml
+/.travis.yml
+/test
