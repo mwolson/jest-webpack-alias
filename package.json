@@ -34,7 +34,7 @@
   "dependencies": {
     "lodash": "^3.10.1",
     "pkginfo": "^0.3.0",
-    "transform-jest-deps": "^2.1.0",
+    "transform-jest-deps": "^2.2.0",
     "unwin": "^1.0.1"
   },
   "devDependencies": {
