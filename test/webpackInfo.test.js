@@ -87,7 +87,7 @@ describe('webpackInfo lib', function() {
       it('throws an error', function() {
         filename = '/top/test/file1.test.js';
         webpackFile = '/top/webpack/dev.config.js';
-        var expectedMsg = 'Missing setting "resolve.root" in /top/webpack/dev.config.js';
+        var expectedMsg = 'Missing setting "resolve.root" or "resolve.modules" in /top/webpack/dev.config.js';
 
         expect(webpackInfo.read.bind(null, {filename: filename})).to.throw(expectedMsg);
       });
