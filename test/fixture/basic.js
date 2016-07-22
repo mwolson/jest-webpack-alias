@@ -31,10 +31,9 @@ var webpackSettings = fixture.webpackSettings = [
   {
     name: webpackProfile,
     resolve: {
-      root: ['/top/test/__mocks__', '/top/src', '/top/bogus_dir'],
+      modules: ['/top/test/__mocks__', '/top/src', '/top/bogus_dir', 'node_modules', 'web_modules'],
       extensions: ["", ".js", ".jsx"],
       // omitted: fallback
-      // omitted: modulesDirectories
       alias: {
         aliasNodeSubdir1Src: 'node1',
         aliasNodeSubdir2Src: 'node1/lib/submodule',

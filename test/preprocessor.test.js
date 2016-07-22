@@ -1,10 +1,10 @@
 var expect = require('./lib/expect');
-var basicFixture = require('./fixture/basic');
-var cacheize = require('../lib/cacheize');
 var path = require('path');
 var rewire = require('rewire');
 var sinon = require('sinon');
 var unwin = require('unwin');
+var basicFixture = require('./fixture/basic');
+var cacheize = require('../lib/cacheize');
 
 describe('jest-webpack-alias module', function() {
   var dirHas, filename, fs, webpackAlias, webpackInfo;

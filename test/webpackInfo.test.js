@@ -79,7 +79,7 @@ describe('webpackInfo lib', function() {
       });
     });
 
-    describe('but missing resolve.root', function() {
+    describe('but missing resolve.modules and resolve.root', function() {
       beforeEach(function() {
         setup(require('./fixture/webpackInfo/profile-missing-resolve-root'));
       });
@@ -87,7 +87,10 @@ describe('webpackInfo lib', function() {
       it('throws an error', function() {
         filename = '/top/test/file1.test.js';
         webpackFile = '/top/webpack/dev.config.js';
-        var expectedMsg = 'Missing setting "resolve.root" or "resolve.modules" in /top/webpack/dev.config.js';
+        var expectedMsg = [
+          'Missing setting "resolve.modules" (webpack v2) or "resolve.root" (webpack v1)',
+          ' in /top/webpack/dev.config.js'
+        ].join('');
 
         expect(webpackInfo.read.bind(null, {filename: filename})).to.throw(expectedMsg);
       });

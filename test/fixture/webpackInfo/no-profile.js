@@ -13,10 +13,9 @@ var webpackProfile = fixture.webpackProfile = null;
 
 var webpackSettings = fixture.webpackSettings = {
   resolve: {
-    root: ['/top/src', '/top/bogus_dir'],
+    modules: ['/top/src', '/top/bogus_dir'],
     extensions: ["", ".js", ".jsx"],
     // omitted: fallback
-    // omitted: modulesDirectories
     alias: {
       aliasNodeSubdir1Src: 'node1',
       aliasNodeSubdir2Src: 'node1/lib/submodule',
