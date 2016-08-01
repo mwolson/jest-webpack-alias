@@ -336,6 +336,30 @@ describe('jest-webpack-alias module', function() {
       ]);
       expect(output).to.eq("var lib1a = require('../src/aliasRelative.js');");
     });
+
+    it('applies alias to absolute subdir paths', function () {
+      var src = "var lib1a = require('aliasAbsoluteSubdirSrc/lib1a');";
+      var output = webpackAlias.process(src, filename);
+
+      verifyDirHas([
+        ['/top/src/dir1', 'lib1a'],
+        ['/top/src/dir1', 'lib1a.js'],
+      ]);
+
+      expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.js');");
+    });
+
+    it('applies alias to absolute path to a file', function() {
+      var src = "var lib1a = require('aliasAbsoluteFileSrc');";
+      var output = webpackAlias.process(src, filename);
+
+      verifyDirHas([
+        ['/top/src/dir1', 'lib1a'],
+        ['/top/src/dir1', 'lib1a.js'],
+      ]);
+
+      expect(output).to.eq("var lib1a = require('../src/dir1/lib1a.js');");
+    });
   });
 
   describe('resolve', function() {

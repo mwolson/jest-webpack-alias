@@ -79,7 +79,6 @@ var computed = require(resolve(moduleName, __filename));
 
 ## Known issues
 
-- `resolve.alias` settings whose values are absolute paths might not work
 - `resolve.modulesDirectories` only searches the directory containing your package.json file, not all ancestors of current file
 
 ## License
