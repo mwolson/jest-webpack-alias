@@ -17,12 +17,12 @@ describe('webpackInfo lib', function() {
     webpackProfile = setup.webpackProfile;
   }
 
-  function expectContainsProfile() {
+  function expectContainsProfile(profileContents) {
     expect(pkginfo.read).to.be.calledOnce;
     expect(pkginfo.read.args[0][0]).to.eql({filename: filename});
     expect(fakeRequire).to.be.calledOnce;
     expect(unwin(fakeRequire.args[0][0])).to.eql(webpackFile);
-    expect(output).to.have.deep.property('config', _.find(requireContents[webpackFile], 'name', webpackProfile))
+    expect(output).to.have.deep.property('config', _.find(profileContents, 'name', webpackProfile))
       .and.to.have.property('name', webpackProfile);
     expect(unwin(output.file)).to.eql(webpackFile);
   }
@@ -46,7 +46,7 @@ describe('webpackInfo lib', function() {
       webpackFile = '/top/webpack.config.js';
       output = webpackInfo.read({filename: filename});
 
-      expectContainsProfile();
+      expectContainsProfile(requireContents[webpackFile]);
     });
 
     describe('but wrong profile name', function() {
@@ -107,7 +107,21 @@ describe('webpackInfo lib', function() {
       webpackFile = '/top/webpack/dev.config.js';
       output = webpackInfo.read({filename: filename});
 
-      expectContainsProfile();
+      expectContainsProfile(requireContents[webpackFile]);
+    });
+  });
+
+  describe('with ES6 default exports', function() {
+    beforeEach(function() {
+      setup(require('./fixture/webpackInfo/es6-default-exports'));
+    });
+
+    it('finds profile', function() {
+      filename = '/top/test/file1.test.js';
+      webpackFile = '/top/webpack/dev.config.js';
+      output = webpackInfo.read({filename: filename});
+
+      expectContainsProfile(requireContents[webpackFile].default);
     });
   });
 
