@@ -51,6 +51,10 @@ File `package.json`:
 
 ## Common problems
 
+### Importing CSS and SCSS files
+
+In order to use statements like `require('some-styles.css')` in a testing environment, it's best to use an npm module like [ignore-styles](https://www.npmjs.com/package/ignore-styles) to ignore files that match certain file extensions in `require()` statements.
+
 ### Manual package resolution
 
 Code like this will not work, because an AST parser is not smart enough to evaluate variables into strings.
