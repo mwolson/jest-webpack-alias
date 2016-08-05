@@ -6,7 +6,7 @@
 
 Preprocessor for Jest that is able to resolve `require()` statements using webpack aliases.
 
-See also [transform-jest-deps](https://github.com/Ticketmaster/transform-jest-deps).
+See also [transform-jest-deps](https://github.com/mwolson/transform-jest-deps).
 
 ## Install
 
@@ -89,11 +89,11 @@ var computed = require(resolve(moduleName, __filename));
 
 MIT
 
-[travis-image]: https://travis-ci.org/Ticketmaster/jest-webpack-alias.svg?branch=master
-[travis-url]: https://travis-ci.org/Ticketmaster/jest-webpack-alias
+[travis-image]: https://travis-ci.org/mwolson/jest-webpack-alias.svg?branch=master
+[travis-url]: https://travis-ci.org/mwolson/jest-webpack-alias
 
-[coveralls-image]: https://coveralls.io/repos/github/Ticketmaster/jest-webpack-alias/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/Ticketmaster/jest-webpack-alias?branch=master
+[coveralls-image]: https://coveralls.io/repos/github/mwolson/jest-webpack-alias/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/mwolson/jest-webpack-alias?branch=master
 
 [npm-image]: https://img.shields.io/npm/v/jest-webpack-alias.svg?style=flat
 [npm-url]: https://www.npmjs.com/package/jest-webpack-alias

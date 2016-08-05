@@ -20,9 +20,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ticketmaster/jest-webpack-alias.git"
+    "url": "https://github.com/mwolson/jest-webpack-alias.git"
   },
-  "author": "Ticketmaster",
+  "author": "Michael Olson <mwolson@member.fsf.org>",
   "license": "MIT",
   "keywords": [
     "jest",
