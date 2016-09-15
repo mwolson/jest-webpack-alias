@@ -362,13 +362,14 @@ describe('jest-webpack-alias module', function() {
     });
 
     it('applies alias when wanted file is relative to alias', function() {
-      var src = "var lib11a = require('aliasSubRelative/lib1-1a.js');";
+      var src = "var lib11a = require('aliasSubRelative/lib1-1a');";
       var output = webpackAlias.process(src, filename);
 
       verifyDirHas([
+        [ '/top/test/__mocks__/dir1/dir1-1', 'lib1-1a' ],
         [ '/top/test/__mocks__/dir1/dir1-1', 'lib1-1a.js' ],
-        [ '/top/test/__mocks__/dir1/dir1-1', 'lib1-1a.js.js' ],
-        [ '/top/test/__mocks__/dir1/dir1-1', 'lib1-1a.js.jsx' ],
+        [ '/top/test/__mocks__/dir1/dir1-1', 'lib1-1a.jsx' ],
+        [ '/top/src/dir1/dir1-1', 'lib1-1a' ],
         [ '/top/src/dir1/dir1-1', 'lib1-1a.js' ]
       ]);
 
