@@ -40,7 +40,8 @@ var webpackSettings = fixture.webpackSettings = [
         aliasNodeFileSrc: 'aliasNodeFileDest',
         aliasPlainSubdirSrc: 'dir1/lib1a',
         aliasAbsoluteSubdirSrc: '/top/src/dir1',
-        aliasAbsoluteFileSrc: '/top/src/dir1/lib1a'
+        aliasAbsoluteFileSrc: '/top/src/dir1/lib1a',
+        aliasSubRelative: 'dir1/dir1-1',
       }
     }
   }
