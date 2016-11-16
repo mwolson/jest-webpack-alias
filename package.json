@@ -1,6 +1,6 @@
 {
   "name": "jest-webpack-alias",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "Preprocessor for Jest that is able to resolve require() statements using webpack aliases.",
   "main": "lib/preprocessor.js",
   "scripts": {
