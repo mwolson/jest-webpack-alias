@@ -8,6 +8,8 @@ Preprocessor for Jest that is able to resolve `require()` statements using webpa
 
 See also [transform-jest-deps](https://github.com/mwolson/transform-jest-deps).
 
+:warning: **Consider using [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver) for new projects instead of `jest-webpack-alias`. An example setup can be seen at [the Next.js repo](https://github.com/zeit/next.js).**
+
 ## Install
 
 ```sh
