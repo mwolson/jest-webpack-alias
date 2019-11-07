@@ -34,14 +34,14 @@
   "dependencies": {
     "lodash": "^4.17.15",
     "pkginfo": "^0.3.0",
-    "transform-jest-deps": "^2.2.0",
+    "transform-jest-deps": "^2.2.2",
     "unwin": "^1.0.1"
   },
   "devDependencies": {
     "blanket": "^1.2.1",
     "chai": "^3.2.0",
-    "coveralls": "^2.11.6",
-    "mocha": "^2.3.0",
+    "coveralls": "^3.0.7",
+    "mocha": "^6.2.2",
     "mocha-lcov-reporter": "^1.0.0",
     "rewire": "^2.3.4",
     "sinon": "^1.16.1",

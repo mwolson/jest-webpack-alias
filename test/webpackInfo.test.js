@@ -22,7 +22,7 @@ describe('webpackInfo lib', function() {
     expect(pkginfo.read.args[0][0]).to.eql({filename: filename});
     expect(fakeRequire).to.be.calledOnce;
     expect(unwin(fakeRequire.args[0][0])).to.eql(webpackFile);
-    expect(output).to.have.deep.property('config', _.find(profileContents, 'name', webpackProfile))
+    expect(output).to.have.deep.property('config', _.find(profileContents, ['name', webpackProfile]))
       .and.to.have.property('name', webpackProfile);
     expect(unwin(output.file)).to.eql(webpackFile);
   }
