@@ -32,7 +32,7 @@
     "alias"
   ],
   "dependencies": {
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.15",
     "pkginfo": "^0.3.0",
     "transform-jest-deps": "^2.2.0",
     "unwin": "^1.0.1"
